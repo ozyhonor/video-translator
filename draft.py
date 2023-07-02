@@ -1,15 +1,23 @@
-import configparser 
-import sys
+from moviepy.editor import VideoFileClip
+import imageio
+import random
 
-
-if __name__ == "__main__":
+def save_random_frame_as_jpg(video_path, output_path):
+    video = VideoFileClip(video_path)
+    print(type(video.duration))
+    # Получение случайного времени кадра в секундах
+    frame_time = 36 #random.randint(0, int(video.duration))
+    print(frame_time)
+    # Получение кадра по случайному времени
+    frame = video.get_frame(frame_time)
+    video.close()
     
-    # Чтение данных из INI-файла
-    try:
-        config = configparser.ConfigParser()
-        config.read('./secret/master-kqys.ini')
-        #print(config['a'])
-    except: 
-        exc_type, exc_value, exc_traceback = sys.exc_info()
-        print(f"Произошла ошибка типа: {exc_type.__name__},  {exc_traceback}")
+    output_path_jpg = output_path + ".jpg"
+    imageio.imwrite(output_path_jpg, frame)
+    print("Случайный кадр сохранен по пути:", output_path_jpg)
 
+# Пример использования
+video_path = "./data/v.mp4"
+output_path = "data/aaa"
+
+save_random_frame_as_jpg(video_path, output_path)
